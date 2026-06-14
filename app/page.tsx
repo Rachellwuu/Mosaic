@@ -1,4 +1,8 @@
+"use client"
+import {useState} from "react"
 export default function Home() {
+  const[ticker,setTicker] = useState("");
+  const[submit, setSubmit] = useState("");
   return (
     <main className="min-h-screen bg-[#0d0f12] text-white flex flex-col items-center justify-center px-4">
       <h1 className="text-4xl font-mono font-medium text-white mb-2">
@@ -9,13 +13,15 @@ export default function Home() {
       </p>
       <div className="flex gap-2 w-full max-w-md">
         <input
-          className="flex-1 bg-[#161920] border border-[#1e2228] rounded-lg px-4 py-2 text-sm font-mono text-white outline-none placeholder-zinc-600"
-          placeholder="enter ticker e.g. NVDA"
+          value = {ticker} onChange ={(e)=> setTicker(e.target.value)} className="flex-1 bg-[#161920] border border-[#1e2228] rounded-lg px-4 py-2 text-sm font-mono text-white outline-none placeholder-zinc-600"
+          placeholder="enter ticker e.g. AMD, MSFT"
         />
-        <button className="bg-green-400 text-black text-sm font-medium px-4 py-2 rounded-lg">
+        <button onClick = {()=> setSubmit(ticker)} className="bg-green-500 text-black text-sm font-medium font-mono px-2 py-2 rounded-lg">
           analyze
         </button>
+        
       </div>
+      {submit && (<p className = "p-4 text-zinc-500 font-mono text-xs">analyzing {submit}...</p>)}
     </main>
   )
 }
