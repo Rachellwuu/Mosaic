@@ -1,4 +1,6 @@
 "use client"
+import SearchBar from "@/components/SearchBar"
+import StockCard from "@/components/StockCard"
 import {useState} from "react"
 export default function Home() {
   const[ticker,setTicker] = useState("");
@@ -11,17 +13,15 @@ export default function Home() {
       <p className="text-zinc-500 text-sm mb-8">
         stock analyzer and thesis builder
       </p>
-      <div className="flex gap-2 w-full max-w-md">
-        <input
-          value = {ticker} onChange ={(e)=> setTicker(e.target.value)} className="flex-1 bg-[#161920] border border-[#1e2228] rounded-lg px-4 py-2 text-sm font-mono text-white outline-none placeholder-zinc-600"
-          placeholder="enter ticker e.g. AMD, MSFT"
-        />
-        <button onClick = {()=> setSubmit(ticker)} className="bg-green-500 text-black text-sm font-medium font-mono px-2 py-2 rounded-lg">
-          analyze
-        </button>
-        
-      </div>
-      {submit && (<p className = "p-4 text-zinc-500 font-mono text-xs">analyzing {submit}...</p>)}
+      <SearchBar ticker ={ticker} onChange ={(e)=>setTicker(e.target.value)} onSubmit ={()=> setSubmit(ticker)}/>
+      {submit && (
+        <div>
+        <p className = "p-4 text-zinc-500 font-mono text-xs">analyzing {submit}...</p>
+        <StockCard ticker = {submit} />
+        </div>
+      )
+      }
+
     </main>
   )
 }
