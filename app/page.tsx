@@ -1,6 +1,8 @@
 "use client"
 import SearchBar from "@/components/SearchBar"
 import StockCard from "@/components/StockCard"
+import PriceChart from "@/components/PriceChart"
+import {PriceData} from "@/components/PriceChart"
 import {useState} from "react"
 
 interface StockData{
@@ -15,6 +17,8 @@ interface StockData{
   changePercentage:number
   pe:number
   revenue:number
+  priceHistory: PriceData[]
+  
 }
 
 export default function Home() {
@@ -45,17 +49,22 @@ export default function Home() {
       <p className="text-zinc-500 text-sm mb-8">
         stock analyzer and thesis builder
       </p>
-      <SearchBar ticker ={ticker} onChange ={(e)=>setTicker(e.target.value)} onSubmit ={handleAnalyze}/>
-      {submit && (
-        <div className = "w-full flex flex-col items-center">
-          { isLoading?(<p className = "p-4 text-zinc-500 font-mono text-xs">analyzing {submit}...</p>):(
-          
-          <StockCard data = {stockData} />)
-}
-        </div>
-      )
-      }
-
+      <div className = "w-full max-w-2xl  flex flex-col items-center ">
+        <SearchBar ticker ={ticker} onChange ={(e)=>setTicker(e.target.value)} onSubmit ={handleAnalyze}/>
+        {submit && (
+          <div className = "w-full flex flex-col items-center ">
+            { isLoading?(<p className = "p-4 text-zinc-500 font-mono text-xs">analyzing {submit}...</p>):(
+            
+            <div className = "w-full flex-col items-center">
+            <StockCard data = {stockData} />
+            <PriceChart data = {stockData?.priceHistory??[]}/>
+            </div>
+            )
+  }
+          </div>
+        )
+        }
+</div>
     </main>
   )
 }

@@ -17,7 +17,7 @@ type StockCard={
 export default function StockCard({data}:StockCard){
     if (!data) return null
     return (
-    <div className = "w-full max-w-md mt-6">
+    <div className = "w-full mt-6">
         <div className ="flex justify-between py-2">
             <div >
             <h2 className = "font-mono text-3xl font-medium text-white mb-4">{data.symbol}</h2>
@@ -27,7 +27,7 @@ export default function StockCard({data}:StockCard){
             <p className={`font-mono text-sm ${data.changePercentage>= 0 ? 'text-green-400':'text-red-400'}`}>{data.changePercentage.toFixed(2)}% today</p>
             </div>
         </div>
-        <div className = "grid grid-cols-2 mx-auto gap-3 w-full max-w-md">
+        <div className = "grid grid-cols-2 mx-auto gap-3 w-full ">
             
         <div className = "bg-[#161920] border border-[#1e2228] rounded-lg p-4">
             <p className ="text-zinc-500 mb-1 text-sm">P/E ratio</p>
