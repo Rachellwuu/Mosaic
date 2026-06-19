@@ -26,16 +26,24 @@ export default function Home() {
   const[submit, setSubmit] = useState("");
   const[stockData, setStockData] = useState<StockData|null>(null)
   const[isLoading, setIsLoading] = useState(false)
+  const[error, setError] =useState("")
   const handleAnalyze = async () => {
   setIsLoading(true)
   setSubmit(ticker)
+  setError("")
+  setStockData(null)
   try {
+    if (!ticker.trim()) return
     const response = await fetch(`/api/stock?ticker=${ticker}`)
     const data = await response.json()
-    console.log(data)
-    setStockData(data)
-  } catch (error) {
-    console.log("error:", error)
+    if (data.error){
+      setError(data.error)
+    }
+    else{
+      setStockData(data)
+    }
+  } catch (err) {
+    setError("Error: Invalid or unavailable ticker. Try again.")
   } finally {
     setIsLoading(false)
   }
@@ -53,12 +61,18 @@ export default function Home() {
         <SearchBar ticker ={ticker} onChange ={(e)=>setTicker(e.target.value)} onSubmit ={handleAnalyze}/>
         {submit && (
           <div className = "w-full flex flex-col items-center ">
-            { isLoading?(<p className = "p-4 text-zinc-500 font-mono text-xs">analyzing {submit}...</p>):(
             
-            <div className = "w-full flex-col items-center">
-            <StockCard data = {stockData} />
-            <PriceChart data = {stockData?.priceHistory??[]}/>
-            </div>
+            { isLoading?(<p className = "p-4 text-zinc-500 font-mono text-xs">analyzing {submit}...</p>
+
+            ):error?(<p className = "text-red-500 font-mono text-sm mt-4">{error}</p>
+      
+            ):(
+            
+              <div className = "w-full flex-col items-center">
+              <StockCard data = {stockData} />
+              <PriceChart data = {stockData?.priceHistory??[]}/>
+              </div>
+            
             )
   }
           </div>
