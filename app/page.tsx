@@ -3,6 +3,7 @@ import SearchBar from "@/components/SearchBar"
 import StockCard from "@/components/StockCard"
 import PriceChart from "@/components/PriceChart"
 import {PriceData} from "@/components/PriceChart"
+import AnalysisCard from "@/components/AnalysisCard"
 import {useState} from "react"
 
 interface StockData{
@@ -27,11 +28,13 @@ export default function Home() {
   const[stockData, setStockData] = useState<StockData|null>(null)
   const[isLoading, setIsLoading] = useState(false)
   const[error, setError] =useState("")
+  const[analysis,setAnalysis]= useState<any>(null)
   const handleAnalyze = async () => {
   setIsLoading(true)
   setSubmit(ticker)
   setError("")
   setStockData(null)
+  setAnalysis(null)
   try {
     if (!ticker.trim()) return
     const response = await fetch(`/api/stock?ticker=${ticker}`)
@@ -41,6 +44,9 @@ export default function Home() {
     }
     else{
       setStockData(data)
+      const cresponse = await fetch("/api/analyze",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)})
+      const cdata = await cresponse.json()
+      setAnalysis(cdata)
     }
   } catch (err) {
     setError("Error: Invalid or unavailable ticker. Try again.")
@@ -71,6 +77,8 @@ export default function Home() {
               <div className = "w-full flex-col items-center">
               <StockCard data = {stockData} />
               <PriceChart data = {stockData?.priceHistory??[]}/>
+              {analysis && (<div className="w-full mt-8">
+              <AnalysisCard bull={analysis.bull} bear={analysis.bear} verdict={analysis.verdict} reasoning={analysis.reasoning} /></div>)}
               </div>
             
             )
