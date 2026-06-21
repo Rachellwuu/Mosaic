@@ -64,7 +64,7 @@ export default function Home() {
       <p className="text-zinc-500 text-sm mb-8">
         stock analyzer and thesis tracker
       </p>
-      <div className = "w-full max-w-2xl  flex flex-col items-center ">
+      <div className = "w-full max-w-4xl  flex flex-col items-center ">
         <SearchBar ticker ={ticker} onChange ={(e)=>setTicker(e.target.value)} onSubmit ={handleAnalyze}/>
         {submit && (
           <div className = "w-full flex flex-col items-center ">
@@ -78,13 +78,22 @@ export default function Home() {
               <div className = "w-full flex-col items-center">
               <StockCard data = {stockData} />
               <PriceChart data = {stockData?.priceHistory??[]}/>
+              <div className="w-full flex items-center gap-3 my-6">
+                <div className="flex-1 border-t border-[#1e2228]"></div>
+                <p className="text-zinc-600 text-xs font-mono">CLAUDE ANALYSIS</p>
+                <div className="flex-1 border-t border-[#1e2228]"></div>
+              </div>
               {analysis && (<div className="w-full mt-8">
               <AnalysisCard bull={analysis.bull} bear={analysis.bear} verdict={analysis.verdict} reasoning={analysis.reasoning} />
-              <ThesisForm ticker ={submit}/>
+              
               </div>
-
-            
             ) }
+              <div className="w-full flex items-center gap-3 my-6">
+                <div className="flex-1 border-t border-[#1e2228]"></div>
+                <p className="text-zinc-600 text-xs font-mono">THESIS MAKING</p>
+                <div className="flex-1 border-t border-[#1e2228]"></div>
+              </div>
+              <ThesisForm ticker ={submit}/>
 
               </div>
             
