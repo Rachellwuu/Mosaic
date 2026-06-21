@@ -5,6 +5,7 @@ import PriceChart from "@/components/PriceChart"
 import {PriceData} from "@/components/PriceChart"
 import AnalysisCard from "@/components/AnalysisCard"
 import {useState} from "react"
+import ThesisForm from "@/components/ThesisForm"
 
 interface StockData{
   symbol:string
@@ -61,14 +62,14 @@ export default function Home() {
         mosaic
       </h1>
       <p className="text-zinc-500 text-sm mb-8">
-        stock analyzer and thesis builder
+        stock analyzer and thesis tracker
       </p>
       <div className = "w-full max-w-2xl  flex flex-col items-center ">
         <SearchBar ticker ={ticker} onChange ={(e)=>setTicker(e.target.value)} onSubmit ={handleAnalyze}/>
         {submit && (
           <div className = "w-full flex flex-col items-center ">
             
-            { isLoading?(<p className = "p-4 text-zinc-500 font-mono text-xs">analyzing {submit}...</p>
+            { isLoading?(<p className = "p-4 text-zinc-500 font-mono text-xs">analyzing {submit}... (10 seconds)</p>
 
             ):error?(<p className = "text-red-500 font-mono text-sm mt-4">{error}</p>
       
@@ -78,7 +79,13 @@ export default function Home() {
               <StockCard data = {stockData} />
               <PriceChart data = {stockData?.priceHistory??[]}/>
               {analysis && (<div className="w-full mt-8">
-              <AnalysisCard bull={analysis.bull} bear={analysis.bear} verdict={analysis.verdict} reasoning={analysis.reasoning} /></div>)}
+              <AnalysisCard bull={analysis.bull} bear={analysis.bear} verdict={analysis.verdict} reasoning={analysis.reasoning} />
+              <ThesisForm ticker ={submit}/>
+              </div>
+
+            
+            ) }
+
               </div>
             
             )
