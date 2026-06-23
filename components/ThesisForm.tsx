@@ -1,14 +1,20 @@
 import {useState} from "react"
+import { supabase } from "@/app/lib/supabase"
 type ThesisFormProp={
     ticker:string
+    currentPrice: number
 }
-export default function ThesisForm({ticker}:ThesisFormProp){
+export default function ThesisForm({ticker, currentPrice}:ThesisFormProp){
     const[thesis,setThesis]= useState("");
     const[condition,setCondition]= useState("")
     const[date,setDate] = useState("")
     const[save,setSave]= useState(false)
     const handleSave = async()=>{
-           setSave(true)
+           const{error} = await supabase.from("theses").insert([{ticker:ticker, thesis:thesis, condition:condition, target_date: date, price_at_save:currentPrice}])
+           console.log("Supabase error:", error)
+           if (!error){
+            setSave(true)
+           }
         }
     return (
         

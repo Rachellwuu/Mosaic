@@ -45,9 +45,19 @@ export default function Home() {
     }
     else{
       setStockData(data)
-      const cresponse = await fetch("/api/analyze",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(data)})
-      const cdata = await cresponse.json()
-      setAnalysis(cdata)
+      try {
+        const cresponse = await fetch("/api/analyze", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      })
+        const cdata = await cresponse.json()
+        if (!cdata.error) {
+          setAnalysis(cdata)
+        }
+      } catch (analyzeErr) {
+      console.log("Analysis failed:", analyzeErr)
+      }
     }
   } catch (err) {
     setError("Error: Invalid or unavailable ticker. Try again.")
@@ -93,7 +103,7 @@ export default function Home() {
                 <p className="text-zinc-600 text-xs font-mono">THESIS MAKING</p>
                 <div className="flex-1 border-t border-[#1e2228]"></div>
               </div>
-              <ThesisForm ticker ={submit}/>
+              <ThesisForm ticker ={submit} currentPrice={stockData?.price ?? 0}/>
 
               </div>
             
