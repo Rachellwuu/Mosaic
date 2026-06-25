@@ -6,10 +6,18 @@ export default function ThesisPage() {
     const[theses,setTheses]= useState<any[]>([]);
     const fetchTheses =async () =>{
         const {data, error} = await supabase.from("theses").select("*").order("id",{ascending:false})
-        console.log("theses data:", data)
-        console.log("theses error:", error)
+        
+
         if (!error && data){
-            setTheses(data)
+            const prices = await Promise.all(
+
+                data.map(async(t) => {
+                    const response = await fetch(`/api/stock?ticker=${t.ticker}`)
+                    const stockData = await response.json()
+                    return {...t,currentPrice:stockData.price}
+                })
+            )
+            setTheses(prices)
         }
     }
     const handleDelete= async(id:number) =>{
@@ -38,6 +46,9 @@ export default function ThesisPage() {
                         <p className="text-zinc-500 text-xs font-mono mb-1">condition: {t.condition}</p>
                         <p className="text-zinc-500 text-xs font-mono mb-1">target date: {t.target_date}</p>
                         <p className="text-zinc-500 text-xs font-mono">saved at: ${t.price_at_save}</p>
+                        <p className="text-zinc-500 text-xs font-mono">current: ${t.currentPrice?.toFixed(2)}</p>
+                        <p className={`text-xs font-mono mt-1 ${t.currentPrice >= t.price_at_save ? 'text-green-400' : 'text-red-400'}`}>{(((t.currentPrice - t.price_at_save) / t.price_at_save) * 100).toFixed(2)}% since saved
+  </p>
                         <button className ="bg-red-500 text-black mt-4 p-2 rounded-lg font-mono" onClick = {()=>handleDelete(t.id)} >delete</button>
                     </div>
                     
