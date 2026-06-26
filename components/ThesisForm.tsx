@@ -10,7 +10,11 @@ export default function ThesisForm({ticker, currentPrice}:ThesisFormProp){
     const[date,setDate] = useState("")
     const[save,setSave]= useState(false)
     const handleSave = async()=>{
-           const{error} = await supabase.from("theses").insert([{ticker:ticker, thesis:thesis, condition:condition, target_date: date, price_at_save:currentPrice}])
+        const {data:{user}}= await supabase.auth.getUser()
+        if(!user){
+            return
+        }
+           const{error} = await supabase.from("theses").insert([{ticker:ticker, thesis:thesis, condition:condition, target_date: date, price_at_save:currentPrice,user_id:user.id}])
            console.log("Supabase error:", error)
            if (!error){
             setSave(true)

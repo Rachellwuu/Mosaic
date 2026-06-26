@@ -5,7 +5,11 @@ import { supabase } from "@/app/lib/supabase"
 export default function ThesisPage() {
     const[theses,setTheses]= useState<any[]>([]);
     const fetchTheses =async () =>{
-        const {data, error} = await supabase.from("theses").select("*").order("id",{ascending:false})
+        const{data:{user}}= await supabase.auth.getUser()
+        if(!user){
+            return
+        }
+        const {data, error} = await supabase.from("theses").select("*").eq("user_id",user.id).order("id",{ascending:false})
         
 
         if (!error && data){
@@ -36,7 +40,7 @@ export default function ThesisPage() {
                 mosaic thesis log
             </h1>
             <p className = "text-zinc-500">
-                theses tracking and monitoring space
+                theses tracking and monitoring space (login to access)
             </p>
             <div className ="w-full max-w-4xl flex-col gap-4 mt-6 grid grid-cols-2">
                 {theses.map((t)=>(
