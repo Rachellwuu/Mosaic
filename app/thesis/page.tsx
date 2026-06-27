@@ -2,11 +2,16 @@
 import {useState} from "react"
 import {useEffect} from "react"
 import { supabase } from "@/app/lib/supabase"
+import {useRouter} from "next/navigation"
+
 export default function ThesisPage() {
     const[theses,setTheses]= useState<any[]>([]);
+    const[loading, setLoading]=useState(true)
+    const router = useRouter()
     const fetchTheses =async () =>{
         const{data:{user}}= await supabase.auth.getUser()
         if(!user){
+            router.push("/login")
             return
         }
         const {data, error} = await supabase.from("theses").select("*").eq("user_id",user.id).order("id",{ascending:false})
@@ -22,6 +27,7 @@ export default function ThesisPage() {
                 })
             )
             setTheses(prices)
+            setLoading(false)
         }
     }
     const handleDelete= async(id:number) =>{
@@ -37,12 +43,13 @@ export default function ThesisPage() {
     return (
         <main className="min-h-screen bg-[#0d0f12] text-white flex flex-col items-center pt-30 px-4">
             <h1 className = "text-4xl font-mono font-medium text-white mb-2">
-                mosaic thesis log
+                thesis log
             </h1>
             <p className = "text-zinc-500">
-                theses tracking and monitoring space (login to access)
+                theses tracking and monitoring space
             </p>
-            <div className ="w-full max-w-4xl flex-col gap-4 mt-6 grid grid-cols-2">
+            {loading ? (<p className="text-zinc-500 font-mono text-sm mt-6">loading your theses...</p>) : theses.length === 0 ? (<p className="text-zinc-500 font-mono text-sm mt-6">no theses yet... analyze a stock and write one</p>) : (
+            <div className ="w-full max-w-4xl flex-col gap-4 mt-6 grid grid-cols-1 md:grid-cols-2">
                 {theses.map((t)=>(
                     <div key={t.id} className ="border border-zinc-500 bg-[#161920] rounded-lg p-4 w-full">
                         <p className="text-white font-mono text-3xl">{t.ticker}</p>
@@ -58,7 +65,7 @@ export default function ThesisPage() {
                     
                 )
             )}
-            </div>
+            </div>)}
         </main>
     )
 }
