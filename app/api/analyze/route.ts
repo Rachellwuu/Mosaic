@@ -19,10 +19,9 @@ export async function POST(request:NextRequest){
         "verdict": "BUY/HOLD or WATCH/SELL",
         "reasoning": "explanation here"
         }`
-        const cresponse = await fetch("https://api.anthropic.com/v1/messages", {method:"POST",headers:{"Content-Type":"application/json","x-api-key":process.env.ANTHRO_API_KEY,"anthropic-version":"2023-06-01"},
+        const cresponse = await fetch("https://api.anthropic.com/v1/messages", {method:"POST",headers:{"Content-Type":"application/json","x-api-key":process.env.ANTHRO_API_KEY!,"anthropic-version":"2023-06-01"},
             body:JSON.stringify({model:"claude-sonnet-4-6",max_tokens:1000, messages:[{role:"user", content:prompt}]}) })
         const data = await cresponse.json()
-        console.log("Claude response:", data)
         const analysisText = data.content[0].text
         const cleanedText = analysisText.replace(/```json\n?/g, "").replace(/```/g, "")
         const analysis = JSON.parse(cleanedText)

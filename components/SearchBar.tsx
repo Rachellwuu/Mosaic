@@ -1,7 +1,7 @@
 "use client"
 type SearchBarProps ={
     ticker:string
-    onChange: (value:string)=> void
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
     onSubmit:()=>void
 }
 export default function SearchBar({ticker,onChange,onSubmit}:SearchBarProps){
