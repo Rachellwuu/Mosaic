@@ -1,40 +1,43 @@
-<<<<<<< HEAD
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+#MOSAIC
+full stack AI stock analyzer and investment thesis tracker. Search any ticker to pull live financial data and a price chart, get a AI generated bull and bear case analysis from Claude, and write your own investment thesis and track it against real time prices over time.
+Live demo: https://mosaic-rachel9.vercel.app/
 
-## Getting Started
+#Features
+Live financial data- current price, P/E ratio, revenue growth YoY, and 52 week range from Financial Modeling Prep's API
+90 day price history chart- financial data from FMP's API rendered with Recharts
+AI bull and bear case analysis- sends current financial data to Claude's API which returns a bull case, bear case, and final verdict
+Thesis tracker- users write down a thesis, condition, and date for a specific ticker and saves thesis for further tracking
+Authentication- user data are isolated through email/password auth through Supabase
 
-First, run the development server:
+#Tech stack
+Framework-> Next.js, TypeScript
+Styling-> Tailwind CSS
+Charts-> Recharts
+Financial data-> Financial Modeling Prep API
+AI analysis-> Claude API Anthropic
+Database & Auth -> Supabase
+Deployment-> Vercel
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+#Running locally
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+bashgit clone https://github.com/Rachellwuu/Mosaic.git
+cd Mosaic
+npm install
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Create a .env.local file in the root with your own keys:
 
-## Learn More
+FMP_API_KEY=your_fmp_key
+ANTHRO_API_KEY=your_anthropic_key
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_publishable_key
 
-To learn more about Next.js, take a look at the following resources:
+Then run the dev server:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+bashnpm run dev
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Open http://localhost:3000.
 
-## Deploy on Vercel
+#Why I built this
+Many investors make the mistake of creating vague opinions regarding their stock holdings instead of creating a concrete thesis which they can evaluate later. Mosaic guides investors to be accounted with a previous created strucuture instead of open opinions, to write a thesis with a condiion and a testifiable date so they can see if the call plays out. It is a tool for building accountablity and skill early on in the investment journey.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-=======
-# Mosaic
->>>>>>> 21ffa62b56adc9c21f52a41bac348c02d8d2d344
