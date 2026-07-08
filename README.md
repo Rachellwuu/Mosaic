@@ -2,7 +2,7 @@
 
 Full-stack AI stock analyzer and investment thesis tracker. Search any ticker to pull live financial data and a price chart, get an AI-generated bull and bear case analysis from Claude, and write your own investment thesis to track against real-time prices over time.
 
-**Live demo:** https://mosaic-rachel9.vercel.app/
+**Live demo:** https://mosaic-three-nu.vercel.app/
 
 ## Why I built this
 
